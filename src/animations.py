@@ -23,9 +23,10 @@ class AnimCircle(AnimBase):
     MIN_RADIUS = 50
     MAX_RADIUS = 300
 
-    def __init__(self, width, height):
+    def __init__(self, width, height, endless = True):
         super().__init__(width, height)
         # self.surface.set_alpha(128)
+        self.endless = endless
         self.color = self.random_color()
         self.point = self.random_point()
         self.radius = self.random_radius()
@@ -36,9 +37,13 @@ class AnimCircle(AnimBase):
     def update(self):
         self.radius += 1
         if self.radius > self.MAX_RADIUS:
-            self.color = self.random_color()
-            self.radius = self.MIN_RADIUS
-            self.point = self.random_point()
+            if self.endless:
+                self.color = self.random_color()
+                self.radius = self.MIN_RADIUS
+                self.point = self.random_point()
+            else:
+                return False
 
         self.surface.fill((255, 255, 255, 30))
         pygame.draw.circle(self.surface, self.color, self.point, self.radius)
+        return True

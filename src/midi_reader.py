@@ -41,7 +41,7 @@ class MidiFileParser():
             if msg.type == 'note_on':
                 print(msg)
 
-    def get_events(self, track_num):
+    def get_events(self, track_num=0):
         track = self.mf.tracks[track_num]
         events = []
         curr_note = None

@@ -1,4 +1,5 @@
 import pygame
+import midi_reader
 import visualiser
 
 FPS = 60
@@ -11,7 +12,11 @@ pygame.display.set_caption('MIDI Visualiser')
 
 clock = pygame.time.Clock()
 surface = pygame.display.set_mode((WIDTH, HEIGHT))
+
+mfp = midi_reader.MidiFileParser('../midi/Cold_Forest_2.mid')
 vis = visualiser.Visualiser(surface)
+vis.init_random_circles(7)
+# vis.add_events(mfp.get_events())
 
 running = True
 while(running):
