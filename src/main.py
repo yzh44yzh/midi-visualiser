@@ -13,10 +13,11 @@ pygame.display.set_caption('MIDI Visualiser')
 clock = pygame.time.Clock()
 surface = pygame.display.set_mode((WIDTH, HEIGHT))
 
-mfp = midi_reader.MidiFileParser('../midi/Cold_Forest_2.mid')
+mfp = midi_reader.MidiFileParser('../midi/cold_forest_2_voice_1.mid', 105)
+  
 vis = visualiser.Visualiser(surface)
-vis.init_random_circles(7)
-# vis.add_events(mfp.get_events())
+# vis.init_random_circles(7)
+vis.add_events(mfp.get_events())
 
 running = True
 while(running):

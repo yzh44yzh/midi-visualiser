@@ -1,5 +1,6 @@
 import pygame
 import animations
+import datetime
 
 class Visualiser:
 
@@ -15,8 +16,7 @@ class Visualiser:
 
     def add_events(self, events):
         self.last_event = None
-        self.events = events[0:5]
-        self.events.reverse()
+        self.events = events
 
     def create_circle(self, endless):
         # TODO color and size according to Note Event
@@ -27,15 +27,25 @@ class Visualiser:
         )
 
     def update(self):
-        if self.last_event:
-            # TODO check duration between events
-            self.last_event = None
-        elif self.events:
-            # TODO keep current time
-            self.last_event = self.events.pop()
-            print(self.last_event)
-            circle = self.create_circle(False)
-            self.circles.append(circle)
+        if self.events:
+            now = datetime.datetime.now()
+            next_event = self.events[0]
+            process_next_event = False
+
+            if self.last_event:
+                diff = now - self.last_event.time
+                diff = diff.seconds * 1_000_000 + diff.microseconds
+                process_next_event = diff >= self.last_event.duration * 1_000_000
+            else:
+                process_next_event = True
+
+            if process_next_event:
+                self.last_event = next_event
+                self.last_event.time = now
+
+                self.events = self.events[1:]
+                circle = self.create_circle(False)
+                self.circles.append(circle)
 
         drop = []
         for c in self.circles:
