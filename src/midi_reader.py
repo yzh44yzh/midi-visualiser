@@ -32,6 +32,9 @@ class MidiFileParser():
                 else:
                     print(msg)
 
+    def calc_duration(self, ticks):
+        return mido.tick2second(ticks, self.mf.ticks_per_beat, self.tempo)
+
     def get_events(self, track_num=0):
         track = self.mf.tracks[track_num]
         events = []
@@ -45,12 +48,12 @@ class MidiFileParser():
                 else:
                     curr_note = NoteEvent(msg.note, msg.velocity, None)
                     if msg.time > 0 and len(events) > 0:
-                        pause = mido.tick2second(msg.time, self.mf.ticks_per_beat, self.tempo)
+                        pause = self.calc_duration(msg.time)
                         events[-1].duration += pause
 
             if msg.type == 'note_off':
                 if curr_note:
-                    curr_note.duration = mido.tick2second(msg.time, self.mf.ticks_per_beat, self.tempo)
+                    curr_note.duration = self.calc_duration(msg.time)
                     events.append(curr_note)
                     curr_note = None
                 else:
