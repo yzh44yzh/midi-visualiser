@@ -44,6 +44,9 @@ class MidiFileParser():
                     continue
                 else:
                     curr_note = NoteEvent(msg.note, msg.velocity, None)
+                    if msg.time > 0 and len(events) > 0:
+                        pause = mido.tick2second(msg.time, self.mf.ticks_per_beat, self.tempo)
+                        events[-1].duration += pause
 
             if msg.type == 'note_off':
                 if curr_note:
@@ -60,7 +63,8 @@ class MidiFileParser():
 # python -X utf8 midi_reader.py
 
 if __name__ == '__main__':
-    mfp = MidiFileParser('../midi/cold_forest_2_voice_1.mid', 105)
+    mfp = MidiFileParser('../midi/cold_forest_2_voice_1.mid', 110)
     # print(mfp.show_all())
     events = mfp.get_events(0)
-    print(events)
+    for e in events:
+        print(e)

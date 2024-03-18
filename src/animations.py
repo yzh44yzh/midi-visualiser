@@ -3,6 +3,8 @@ import random
 
 class AnimBase:
 
+    PADDING = 100
+
     def __init__(self, width, height):
         self.surface = pygame.Surface((width, height), pygame.SRCALPHA)
         
@@ -13,8 +15,8 @@ class AnimBase:
         return (r, g, b, 128)
 
     def random_point(self):
-        x = random.randint(50, self.surface.get_width() - 50)
-        y = random.randint(50, self.surface.get_height() - 50)
+        x = random.randint(self.PADDING, self.surface.get_width() - self.PADDING)
+        y = random.randint(self.PADDING, self.surface.get_height() - self.PADDING)
         return (x, y)
 
 
@@ -29,10 +31,7 @@ class AnimCircle(AnimBase):
         self.endless = endless
         self.color = self.random_color()
         self.point = self.random_point()
-        self.radius = self.random_radius()
-
-    def random_radius(self):
-        return random.randint(self.MIN_RADIUS, self.MAX_RADIUS - 100)
+        self.radius = self.MIN_RADIUS
 
     def update(self):
         self.radius += 1

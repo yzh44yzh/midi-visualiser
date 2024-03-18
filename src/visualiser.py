@@ -35,13 +35,14 @@ class Visualiser:
             if self.last_event:
                 diff = now - self.last_event.time
                 diff = diff.seconds * 1_000_000 + diff.microseconds
-                process_next_event = diff >= self.last_event.duration * 1_000_000
+                process_next_event = diff >= (self.last_event.duration * 1_000_000)
             else:
                 process_next_event = True
 
             if process_next_event:
                 self.last_event = next_event
                 self.last_event.time = now
+                print(self.last_event)
 
                 self.events = self.events[1:]
                 circle = self.create_circle(False)
