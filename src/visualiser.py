@@ -18,12 +18,12 @@ class Visualiser:
         self.last_event = None
         self.events = events
 
-    def create_circle(self, endless):
-        # TODO color and size according to Note Event
+    def create_circle(self, size, duration):
         return animations.AnimCircle(
             self.root_surface.get_width(),
             self.root_surface.get_height(),
-            endless
+            size,
+            duration
         )
 
     def update(self):
@@ -42,10 +42,10 @@ class Visualiser:
             if process_next_event:
                 self.last_event = next_event
                 self.last_event.time = now
-                print(self.last_event)
+                # print(self.last_event)
 
                 self.events = self.events[1:]
-                circle = self.create_circle(False)
+                circle = self.create_circle(self.last_event.velocity, 300) # self.last_event.duration * 150)
                 self.circles.append(circle)
 
         drop = []
